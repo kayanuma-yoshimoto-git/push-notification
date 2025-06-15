@@ -1,0 +1,23 @@
+type PaymentStatus {
+  reservation_id: ID!
+  status: String!
+}
+
+type Mutation {
+  updatePaymentStatus(reservation_id: ID!, status: String!): PaymentStatus
+}
+
+type Subscription {
+  onPaymentStatusChanged(reservation_id: ID!): PaymentStatus
+    @aws_subscribe(mutations: ["updatePaymentStatus"])
+}
+
+type Query {
+  getPaymentStatus(reservation_id: ID!): PaymentStatus
+}
+
+schema {
+  query: Query
+  mutation: Mutation
+  subscription: Subscription
+}

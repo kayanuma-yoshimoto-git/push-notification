@@ -1,0 +1,26 @@
+{
+  "name": "confirm-payment-status-app",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "cd authorizer && npm install && npm run build",
+    "remove": "npx serverless remove",
+    "deploy": "npm run build && npx serverless deploy"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "@types/aws-lambda": "^8.10.149",
+    "@types/jsonwebtoken": "^9.0.9",
+    "serverless": "^3.40.0",
+    "serverless-appsync-plugin": "^1.9.0",
+    "typescript": "^5.8.3"
+  },
+  "dependencies": {
+    "@aws-amplify/backend": "^1.15.0",
+    "jsonwebtoken": "^9.0.2"
+  }
+}

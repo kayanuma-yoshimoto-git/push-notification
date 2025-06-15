@@ -1,0 +1,17 @@
+{
+  "name": "authorizer",
+  "version": "1.0.0",
+  "description": "",
+  "main": "handler.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "esbuild handler.ts --bundle --platform=node --target=node18 --outfile=handler.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "esbuild": "^0.25.2",
+    "jsonwebtoken": "^9.0.2"
+  }
+}

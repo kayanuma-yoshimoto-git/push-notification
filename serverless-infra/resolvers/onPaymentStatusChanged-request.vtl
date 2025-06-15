@@ -1,0 +1,7 @@
+{
+  "version": "2018-05-29",
+  "operation": "GetItem",
+  "key": {
+    "reservation_id": $util.dynamodb.toDynamoDBJson($ctx.args.reservation_id)
+  }
+}

@@ -1,0 +1,74 @@
+service: my-appsync-app
+
+frameworkVersion: "3"
+
+provider:
+  name: aws
+  runtime: nodejs18.x
+  region: ap-northeast-1
+  environment:
+    PUBLIC_KEY_BASE64: ${file(./authorizer/publicKey.base64)}
+
+package:
+  individually: true
+
+functions:
+  auth:
+    handler: authorizer/handler.handler
+    runtime: nodejs18.x
+    package:
+      patterns:
+        - "!**"
+        - "authorizer/**"
+plugins:
+  - serverless-appsync-plugin
+
+custom:
+  appSync:
+    schema: graphql/schema.graphql
+    name: confirm-payment-status-api
+    authenticationType: AWS_LAMBDA
+    #    additionalAuthenticationProviders:
+    #      - authenticationType: API_KEY
+    #    apiKeys:
+    #      - name: default
+    lambdaAuthorizerConfig:
+      authorizerResultTtlInSeconds: 300
+      identityValidationExpression: ".*"
+      functionName: auth
+    mappingTemplatesLocation: resolvers
+    mappingTemplates:
+      - dataSource: PaymentStatusTable
+        type: Mutation
+        field: updatePaymentStatus
+        request: updatePaymentStatus-request.vtl
+        response: updatePaymentStatus-response.vtl
+      - dataSource: PaymentStatusTable
+        type: Subscription
+        field: onPaymentStatusChanged
+        request: onPaymentStatusChanged-request.vtl
+        response: onPaymentStatusChanged-response.vtl
+      - dataSource: PaymentStatusTable
+        type: Query
+        field: getPaymentStatus
+        request: getPaymentStatus-request.vtl
+        response: getPaymentStatus-response.vtl
+    dataSources:
+      - type: AMAZON_DYNAMODB
+        name: PaymentStatusTable
+        config:
+          tableName: PaymentStatusTable
+
+resources:
+  Resources:
+    PaymentStatusTable:
+      Type: AWS::DynamoDB::Table
+      Properties:
+        TableName: PaymentStatusTable
+        AttributeDefinitions:
+          - AttributeName: reservation_id
+            AttributeType: S
+        KeySchema:
+          - AttributeName: reservation_id
+            KeyType: HASH
+        BillingMode: PAY_PER_REQUEST
