@@ -1,0 +1,13 @@
+services:
+  push-notification-app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - '6000:6000'
+      - '8000:8000'
+      - '20002:20002'
+    environment:
+      - AWS_ACCESS_KEY=local
+      - AWS_SECRET_ACCESS_KEY=local
+      - AWS_REGION=ap-northeast-1
