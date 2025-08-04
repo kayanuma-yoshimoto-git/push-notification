@@ -1,2 +1,4 @@
 node_modules/
 *.pem
+*.base64
+serverless-infra/.dynamodb

@@ -14,8 +14,9 @@ const port = process.env.PORT || 4000;
 app.use(cors());
 app.use(express.json());
 
-const APPSYNC_URL = "https://qvxpnmfstncmvkztbjzylj2qh4.appsync-api.ap-northeast-1.amazonaws.com/graphql";
-
+const APPSYNC_URL = 
+  // "https://qvxpnmfstncmvkztbjzylj2qh4.appsync-api.ap-northeast-1.amazonaws.com/graphql";
+  "http://localhost:20002/graphql"
 const mutation = `
   mutation UpdatePaymentStatus($reservation_id: ID!, $status: String!) {
     updatePaymentStatus(reservation_id: $reservation_id, status: $status) {
@@ -59,6 +60,7 @@ app.post('/api/qr', async (req, res) => {
       headers: {
         // Lambda Authorizerの場合、Authorizationヘッダーにトークンを設定
         'Authorization': token,
+        'x-api-key': '0123456789',
         'Content-Type': 'application/json',
       },
       body: JSON.stringify({
@@ -74,7 +76,7 @@ app.post('/api/qr', async (req, res) => {
       return res.status(500).json({ error: 'Failed to update payment status' });
     }
 
-    console.log('✅ Mutation success:', json.data.updatePaymentStatus);
+    console.log('✅ Mutation success:', json);
     res.json({
       reservation_id: reservationId,
       token,
@@ -115,6 +117,7 @@ app.post('/api/payment', async (req, res) => {
       method: 'POST',
       headers: {
         'Authorization': token,
+        'x-api-key': '0123456789',
         'Content-Type': 'application/json',
       },
       body: JSON.stringify({
@@ -130,11 +133,11 @@ app.post('/api/payment', async (req, res) => {
       return res.status(500).json({ error: 'Failed to update payment status' });
     }
 
-    console.log('✅ Payment completed:', json.data.updatePaymentStatus);
+    console.log('✅ Payment completed:', json);
     res.json({
       success: true,
       message: 'Payment status updated to PAID',
-      data: json.data.updatePaymentStatus
+      data: json
     });
   } catch (error) {
     console.error('❌ Error updating payment status:', error);
