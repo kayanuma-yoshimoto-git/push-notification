@@ -1,0 +1,7 @@
+# src/graphql/schema.graphql
+subscription OnPaymentStatusChanged($reservation_id: ID!) {
+  onPaymentStatusChanged(reservation_id: $reservation_id) {
+    reservation_id
+    status
+  }
+}

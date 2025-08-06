@@ -11,14 +11,14 @@ package:
   individually: true
 # AWS環境：AWSでデプロイして動作確認する場合コメントアウト
 # ローカル環境：ローカル環境で動作確認する場合コメントアウト
-# functions: # AWS環境
-#   auth:
-#     handler: authorizer/handler.handler
-#     runtime: nodejs18.x
-#     package:
-#       patterns:
-#         - "!**"
-#         - "authorizer/**"
+functions: # AWS環境
+  auth:
+    handler: authorizer/handler.handler
+    runtime: nodejs18.x
+    package:
+      patterns:
+        - "!**"
+        - "authorizer/**"
 plugins:
   - serverless-dynamodb
   - serverless-appsync-simulator
@@ -45,13 +45,13 @@ custom:
   appSync:
     schema: graphql/schema.graphql
     name: confirm-payment-status-api
-    # authenticationType: AWS_LAMBDA # AWS環境
-    authenticationType: API_KEY # ローカル環境
-    apiKey: "0123456789" # ローカル環境
-    # lambdaAuthorizerConfig: # AWS環境
-    #   authorizerResultTtlInSeconds: 300
-    #   identityValidationExpression: ".*"
-    #   functionName: auth
+    authenticationType: AWS_LAMBDA # AWS環境
+    # authenticationType: API_KEY # ローカル環境
+    # apiKey: "0123456789" # ローカル環境
+    lambdaAuthorizerConfig: # AWS環境
+      authorizerResultTtlInSeconds: 300
+      identityValidationExpression: ".*"
+      functionName: auth
     mappingTemplatesLocation: resolvers
     mappingTemplates:
       - dataSource: PaymentStatusTable

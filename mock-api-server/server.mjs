@@ -15,8 +15,8 @@ app.use(cors());
 app.use(express.json());
 
 const APPSYNC_URL = 
-  // "https://qvxpnmfstncmvkztbjzylj2qh4.appsync-api.ap-northeast-1.amazonaws.com/graphql";
-  "http://localhost:20002/graphql"
+  "https://xxxxxxxxx.appsync-api.ap-northeast-1.amazonaws.com/graphql";
+  // "http://localhost:20002/graphql"
 const mutation = `
   mutation UpdatePaymentStatus($reservation_id: ID!, $status: String!) {
     updatePaymentStatus(reservation_id: $reservation_id, status: $status) {
