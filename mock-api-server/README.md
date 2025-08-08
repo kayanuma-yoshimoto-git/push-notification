@@ -21,7 +21,7 @@ openssl genpkey -algorithm RSA -out private.pem -pkeyopt rsa_keygen_bits:2048
 # 公開鍵
 openssl rsa -pubout -in private.pem -out public.pem
 
-# 公開鍵をBase64化して、handlerで読めるようにする。→ 配置 infra/confirm-payment-status-app/authorizer
+# 公開鍵をBase64化して、handlerで読めるようにする。→ 配置 serverless-infra/authorizer
 base64 -w 0 public.pem
 ```
 
